@@ -390,8 +390,7 @@
               
               
               <div class="totals">
-                <h6>Total ₹</h6>
-                <h6>Grand Total: ₹</h6>
+                 
               </div>
               <div class="terms">
                 <p><strong>Terms and Conditions:</strong></p>
@@ -926,6 +925,29 @@
       }
   </script>
   <script>
+    let billNumber;
+    function fetchBillNumber() {
+fetch('http://localhost/client/pages/bill_num.php')
+.then(response => response.json())
+.then(data => {
+    if (data.status) {
+          billNumber = data.bill_number;
+        
+        document.getElementById("bill_number").innerText = billNumber; // Display the bill number on the page
+    } else {
+        console.error("Error:", data.message);
+    }
+})
+.catch(error => {
+    console.error("Fetch error:", error);
+});
+}
+
+// Call this function wherever you need to generate and display the bill number
+fetchBillNumber();
+
+  </script>
+  <script>
   // Function to generate and download PDF
 document.getElementById('download-btn').addEventListener('click', function () {
     // Get the bill content
@@ -936,7 +958,7 @@ document.getElementById('download-btn').addEventListener('click', function () {
         .from(element)
         .set({
             margin: 1,
-            filename: 'Fashion_Shop_Bill.pdf',
+            filename: 'e-bill ' + billNumber,
             html2canvas: { scale: 2 },
             jsPDF: { orientation: 'portrait', unit: 'in', format: 'letter' }
         })
@@ -953,7 +975,7 @@ document.getElementById('send-bill-btn').addEventListener('click', function () {
         .from(element)
         .set({
             margin: 1,
-            filename: 'Fashion_Shop_Bill.pdf',
+            filename: billNumber,
             html2canvas: { scale: 2 },
             jsPDF: { orientation: 'portrait', unit: 'in', format: 'letter' }
         })
@@ -961,12 +983,12 @@ document.getElementById('send-bill-btn').addEventListener('click', function () {
         .get('pdf')
         .then(function (pdf) {
             // Convert PDF to Blob for uploading
-            pdf.save('Fashion_Shop_Bill.pdf');
+            pdf.save(billNumber);
             const blob = pdf.output('blob');
 
             // Create FormData object to send PDF to server
             let formData = new FormData();
-            formData.append('file', blob, 'Fashion_Shop_Bill.pdf');
+            formData.append('file', blob, billNumber);
 
             // Send the file to the server (update with your server's URL)
             fetch('https://your-server.com/upload', {
@@ -1079,28 +1101,15 @@ fcxx75442
        
 
       </script>
+      
       <script>
-        function fetchBillNumber() {
-    fetch('http://localhost/client/pages/bill_num.php')
-    .then(response => response.json())
-    .then(data => {
-        if (data.status) {
-            const billNumber = data.bill_number;
-            
-            document.getElementById("bill_number").innerText = billNumber; // Display the bill number on the page
-        } else {
-            console.error("Error:", data.message);
+        function updatePreview() {
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            document.getElementById("namePreview").textContent = name;
+            document.getElementById("phonePreview").textContent = phone;
         }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-    });
-}
-
-// Call this function wherever you need to generate and display the bill number
-fetchBillNumber();
-
-      </script>
+    </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
