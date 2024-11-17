@@ -222,7 +222,7 @@
             </div>
             <span class="nav-link-text ms-1">Profile</span>
           </a>
-          <p class="px-5 text-xs bg-danger p-2 text-white">Make sure your <b>"screen remains active while you are online." </b></p>
+          <p class="px-5 text-xs bg-danger rounded p-2 text-white">Make sure your <b>"screen remains active while you are online." </b></p>
         </li>
  
         
@@ -314,14 +314,19 @@
     <div class="d-flex justify-content-center align-items-center py-4 w-100">
       <form class="d-flex shadow shadow-2 rounded rounded-pill" style="position: relative" id="product_code_searchbar">
         <input type="text" class="px-4 py-3 rounded rounded-pill border border-1"
-          placeholder="Enter product code || 7CA" id="product_code_input" style="width: max(30vw, 22rem)" />
+          placeholder="Enter product code here" id="product_code_input" style="width: max(30vw, 22rem)" required/>
 
-        <i class="fas fa-search" aria-hidden="true" style="
-              cursor: pointer;
-              position: absolute;
-              top: 1.3rem;
-              right: 1rem;
-            "></i>
+          <button type="submit" aria-label="Search" style="
+          cursor: pointer;
+          position: absolute;
+          top: 1.3rem;
+          right: 1rem;
+          background: none;
+          border: none;
+        ">
+<i class="fas fa-search" aria-hidden="true"></i>
+</button>
+
       </form>
     </div>
 
@@ -346,11 +351,11 @@
           <div class="modal-body">
             <div class="form-group">
               <label for="full_name">Full Name</label>
-              <input type="text" class="form-control" id="name" name="name" oninput="updatePreview()" />
+              <input type="text" class="form-control" id="name" name="name" oninput="updatePreview()" required/>
             </div>
             <div class="form-group">
               <label for="whatsapp_number">What's App Number</label>
-              <input type="text" class="form-control" id="phone" name="phone" oninput="updatePreview()" />
+              <input type="text" class="form-control" id="phone" name="phone" oninput="updatePreview()" required/>
             </div>
             <div class="form-group">
               <label for="quantity"> Total Quantity</label>
@@ -489,7 +494,7 @@
                     </div>
                     <div class="card-body pt-0 p-3 text-center">
                       <h6 class="text-center mb-0">Total Sale</h6>
-                      <span class="text-xs">The total  sale amount</span>
+                      <span class="text-xs">Total  sale amount</span>
                       <hr class="horizontal dark my-3" />
                       <h5 class="mb-0">₹500</h5>
                     </div>
