@@ -19,7 +19,15 @@
   <link id="pagestyle" href="../client_assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
   <link href="../client_assets/css/bill.css" rel="stylesheet" />
   <style>
-  
+  .bw-effect {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease; /* Smooth transition */
+}
+
+.bw-effect:hover {
+  filter: none;
+}
+
 
     /* Media queries for mobile and tablet screens */
     @media (max-width: 767.98px) {
@@ -319,9 +327,9 @@
 
     <!-- Billin Modal -->
     <div id="items_section"
-      class="ms-4 mt-2 d-flex justify-content-center align-items-center gap-3 px-3 py-2 flex-wrap rounded rounded-pill shadow shadow-2"
+      class="ms-4 mt-2 d-flex justify-content-center align-items-center gap-3 px-3 py-2 flex-wrap   rounded  shadow shadow-2"
       style="width: max-content">
-      Bill Items
+      Add products to checkout
 
       <button class="btn btn-primary my-auto" data-bs-toggle="modal" data-bs-target="#billingModal">
         Send bill
@@ -398,11 +406,7 @@
                 <p>2. Keep the bill for warranty claims.</p>
                 <p>3. GSTIN is mandatory for claiming input tax credit (ITC).</p>
               </div>
-              <div class="signature">
-                <p>Authorized Signature</p>
-                <p><span id="shop_name_footer">Fashion Shop Name</span></p>
-                <p>_________________________</p>
-              </div>
+           
             </div>
             <!-- Button to download PDF -->
             <button id="download-btn">Download PDF</button>
@@ -484,10 +488,10 @@
                       </div>
                     </div>
                     <div class="card-body pt-0 p-3 text-center">
-                      <h6 class="text-center mb-0">Salary</h6>
-                      <span class="text-xs">Belong Interactive</span>
+                      <h6 class="text-center mb-0">Total Sale</h6>
+                      <span class="text-xs">The total  sale amount</span>
                       <hr class="horizontal dark my-3" />
-                      <h5 class="mb-0">+$2000</h5>
+                      <h5 class="mb-0">₹500</h5>
                     </div>
                   </div>
                 </div>
@@ -499,21 +503,21 @@
                       </div>
                     </div>
                     <div class="card-body pt-0 p-3 text-center">
-                      <h6 class="text-center mb-0">Paypal</h6>
-                      <span class="text-xs">Freelance Payment</span>
+                      <h6 class="text-center mb-0">Due Amount</h6>
+                      <span class="text-xs">due Payments</span>
                       <hr class="horizontal dark my-3" />
-                      <h5 class="mb-0">$455.00</h5>
+                      <h5 class="mb-0">₹455.00</h5>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mb-lg-0 mb-4">
-              <div class="card mt-4">
+            <div class="col-md-12 mb-lg-0 mb-4 bw-effect">
+              <div class="card mt-4 ">
                 <div class="card-header pb-0 p-3">
                   <div class="row">
                     <div class="col-6 d-flex align-items-center">
-                      <h6 class="mb-0">Payment Method</h6>
+                      <h6 class="mb-0">Payment Method's <b>Coming Soon...</b></h6>
                     </div>
                     <div class="col-6 text-end">
                       <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
@@ -555,7 +559,7 @@
             <div class="card-header pb-0 p-3">
               <div class="row">
                 <div class="col-6 d-flex align-items-center">
-                  <h6 class="mb-0">Invoices</h6>
+                  <h6 class="mb-0">Billing info</h6>
                 </div>
                 <div class="col-6 text-end">
                   <button class="btn btn-outline-primary btn-sm mb-0">
@@ -646,7 +650,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <!--div class="row">
         <div class="col-md-7 mt-4">
           <div class="card">
             <div class="card-header pb-0 px-3">
@@ -826,7 +830,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div -->
       <footer class="footer pt-3">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -837,28 +841,11 @@
                   document.write(new Date().getFullYear());
                 </script>
                 , made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                for a better web.
+                <a href="" class="font-weight-bold" target="_blank">minitgo</a>
+                
               </div>
             </div>
-            <div class="col-lg-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About
-                    Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
-                    target="_blank">License</a>
-                </li>
-              </ul>
-            </div>
+            
           </div>
         </div>
       </footer>
@@ -1063,7 +1050,7 @@ if (data.status === false) {
   document.getElementById("customer_phone").innerText = data.phoneno;
   document.getElementById("customer_email").innerText = data.email;
   document.getElementById("customer_address").innerText = data.address;
-  document.getElementById("shop_name_footer").innerText = data.shop_name || "Fashion Shop Name";
+   
 }
 })
 .catch(error => {
