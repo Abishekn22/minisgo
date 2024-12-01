@@ -157,6 +157,7 @@ function displayCheckoutProducts() {
 
     productCardsContainer.appendChild(productCard);
   });
+  console.log("billing,js file")
 }
 
 function increaseQuantity(productId) {

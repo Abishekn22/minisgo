@@ -537,7 +537,7 @@
                       <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                         <img class="w-10 me-3 mb-0" src="../client_assets/img/logos/mastercard.png" alt="logo" />
                         <h6 class="mb-0">
-                          ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852
+                          ***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;7852
                         </h6>
                         <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip"
                           data-bs-placement="top" title="Edit Card"></i>
@@ -547,7 +547,7 @@
                       <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                         <img class="w-10 me-3 mb-0" src="../client_assets/img/logos/visa.png" alt="logo" />
                         <h6 class="mb-0">
-                          ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248
+                          ***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;5248
                         </h6>
                         <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip"
                           data-bs-placement="top" title="Edit Card"></i>
@@ -996,8 +996,8 @@ document.getElementById('send-bill-btn').addEventListener('click', function () {
                 const phone = document.getElementById("phonePreview").textContent;
 
                 // Send the WhatsApp message with the file link
-                const message = `Check out your bill: ${fileUrl}`;
-                const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                const message = Check out your bill: ${fileUrl};
+                const whatsappUrl = https://wa.me/${phone}?text=${encodeURIComponent(message)};
                 
                 // Redirect to WhatsApp
                 window.open(whatsappUrl, '_blank');
@@ -1049,9 +1049,9 @@ if (data.status === false) {
   // Populate the fields with response data
   document.getElementById("shop_name").innerText = data.shop_name || "Fashion Shop Name";
   document.getElementById("shop_address").innerText = data.address || "Address Line 1, Address Line 2, City, State, Postal Code";
-  document.getElementById("shop_contact").innerText = `Contact: ${data.phoneno} | Email: ${data.email}`;
-  document.getElementById("shop_gst").innerText = `GSTIN: ${data.gst}`;
-  document.getElementById("customer_name").innerText = `${data.first_name} ${data.last_name}`;
+  document.getElementById("shop_contact").innerText = Contact: ${data.phoneno} | Email: ${data.email};
+  document.getElementById("shop_gst").innerText = GSTIN: ${data.gst};
+  document.getElementById("customer_name").innerText = ${data.first_name} ${data.last_name};
   document.getElementById("customer_phone").innerText = data.phoneno;
   document.getElementById("customer_email").innerText = data.email;
   document.getElementById("customer_address").innerText = data.address;
@@ -1078,7 +1078,7 @@ fcxx75442
                 const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero if single digit (months are 0-indexed)
                 const year = today.getFullYear();
                 
-                return `${day}-${month}-${year}`;
+                return ${day}-${month}-${year};
             }
 
             // Display the current date in a specific element with the id 'current-date'

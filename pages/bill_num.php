@@ -20,7 +20,7 @@ function generateBillNumber($filePath) {
 
     // Read the current bill number from the file
     $lastBillNumber = (int)fread($fileHandle, filesize($filePath) ?: 1);
-    
+
     // Increment the bill number
     $newBillNumber = $lastBillNumber + 1;
 
@@ -33,8 +33,11 @@ function generateBillNumber($filePath) {
     flock($fileHandle, LOCK_UN);
     fclose($fileHandle);
 
-    // Return the new bill number in JSON format
-    return json_encode(array('status' => true, 'bill_number' => $newBillNumber));
+    // Return success response with the new bill number
+    return json_encode(array(
+        'status' => true,
+        'bill_number' => $newBillNumber
+    ));
 }
 
 // Output the generated bill number
