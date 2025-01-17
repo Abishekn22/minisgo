@@ -14,6 +14,7 @@
   <link href="../client_assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link href="../client_assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../client_assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
@@ -559,101 +560,100 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4">
-          <div class="card h-100">
-            <div class="card-header pb-0 p-3">
-              <div class="row">
-                <div class="col-6 d-flex align-items-center">
-                  <h6 class="mb-0">Billing info</h6>
-                </div>
-                <div class="col-6 text-end">
-                  <button class="btn btn-outline-primary btn-sm mb-0">
-                    View All
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-3 pb-0">
-              <ul class="list-group">
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-1 text-dark font-weight-bold text-sm">
-                      March, 01, 2020
-                    </h6>
-                    <span class="text-xs">#MS-415646</span>
-                  </div>
-                  <div class="d-flex align-items-center text-sm">
-                    $180
-                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-                      <i class="fas fa-file-pdf text-lg me-1"></i>
-                      PDF
-                    </button>
-                  </div>
-                </li>
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                  <div class="d-flex flex-column">
-                    <h6 class="text-dark mb-1 font-weight-bold text-sm">
-                      February, 10, 2021
-                    </h6>
-                    <span class="text-xs">#RV-126749</span>
-                  </div>
-                  <div class="d-flex align-items-center text-sm">
-                    $250
-                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-                      <i class="fas fa-file-pdf text-lg me-1"></i>
-                      PDF
-                    </button>
-                  </div>
-                </li>
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                  <div class="d-flex flex-column">
-                    <h6 class="text-dark mb-1 font-weight-bold text-sm">
-                      April, 05, 2020
-                    </h6>
-                    <span class="text-xs">#FB-212562</span>
-                  </div>
-                  <div class="d-flex align-items-center text-sm">
-                    $560
-                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-                      <i class="fas fa-file-pdf text-lg me-1"></i>
-                      PDF
-                    </button>
-                  </div>
-                </li>
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                  <div class="d-flex flex-column">
-                    <h6 class="text-dark mb-1 font-weight-bold text-sm">
-                      June, 25, 2019
-                    </h6>
-                    <span class="text-xs">#QW-103578</span>
-                  </div>
-                  <div class="d-flex align-items-center text-sm">
-                    $120
-                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-                      <i class="fas fa-file-pdf text-lg me-1"></i>
-                      PDF
-                    </button>
-                  </div>
-                </li>
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                  <div class="d-flex flex-column">
-                    <h6 class="text-dark mb-1 font-weight-bold text-sm">
-                      March, 01, 2019
-                    </h6>
-                    <span class="text-xs">#AR-803481</span>
-                  </div>
-                  <div class="d-flex align-items-center text-sm">
-                    $300
-                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4">
-                      <i class="fas fa-file-pdf text-lg me-1"></i>
-                      PDF
-                    </button>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+    <div class="col-lg-4">
+  <div class="card h-100">
+    <div class="card-header pb-0 p-3">
+      <div class="row">
+        <div class="col-6 d-flex align-items-center">
+          <h6 class="mb-0">Billing info</h6>
         </div>
+        <div class="col-6 text-end">
+          <button class="btn btn-outline-primary btn-sm mb-0">
+            View All
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-3 pb-0">
+      <ul class="list-group" id="bills-list">
+        <!-- Bills will be populated here dynamically -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+fetch('https://minitgo.com/api/bills_fetch.php')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(apiResponse => {
+    if (!apiResponse.status || !apiResponse.data) {
+      throw new Error(apiResponse.message || 'Invalid data format.');
+    }
+
+    const billsList = document.getElementById('bills-list');
+    billsList.innerHTML = '';
+
+    apiResponse.data.forEach((bill, index) => {
+      const listItem = document.createElement('li');
+      listItem.classList.add(
+        'list-group-item',
+        'border-0',
+        'd-flex',
+        'justify-content-between',
+        'ps-0',
+        'mb-2',
+        'border-radius-lg'
+      );
+
+      // Left content
+      const leftContent = document.createElement('div');
+      leftContent.classList.add('d-flex', 'flex-column');
+      leftContent.innerHTML = `
+        <h6 class="mb-1 text-dark font-weight-bold text-sm">
+          ${new Date(bill.timestamp).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+          })}
+        </h6>
+        <span class="text-xs">#${bill.id}</span>
+      `;
+
+      // Right content (View/Download Button)
+      const rightContent = document.createElement('div');
+      rightContent.classList.add('d-flex', 'align-items-center', 'text-sm');
+
+      const viewButton = document.createElement('a');
+      viewButton.href = bill.filepath.trim(); // Ensure no trailing spaces
+      viewButton.target = '_blank';
+      viewButton.rel = 'noopener noreferrer';
+      viewButton.classList.add('btn', 'btn-link', 'text-dark', 'text-sm', 'mb-0', 'px-0', 'ms-4');
+      viewButton.innerHTML = `<i class="fas fa-file-pdf text-lg me-1"></i> View/Download`;
+
+      rightContent.appendChild(viewButton);
+
+      listItem.appendChild(leftContent);
+      listItem.appendChild(rightContent);
+
+      billsList.appendChild(listItem);
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching bills:', error);
+    const billsList = document.getElementById('bills-list');
+    billsList.innerHTML = `
+      <li class="list-group-item text-danger">
+        Error fetching bills: ${error.message}
+      </li>
+    `;
+  });
+
+</script>
       </div>
       <!--div class="row">
         <div class="col-md-7 mt-4">
@@ -916,98 +916,7 @@
           document.body.innerHTML = '<p>No user data found in local storage.</p>';
       }
   </script>
-  <script>
-    let billNumber;
-    function fetchBillNumber() {
-fetch('http://localhost/client/pages/bill_num.php')
-.then(response => response.json())
-.then(data => {
-    if (data.status) {
-          billNumber = data.bill_number;
-        
-        document.getElementById("bill_number").innerText = billNumber; // Display the bill number on the page
-    } else {
-        console.error("Error:", data.message);
-    }
-})
-.catch(error => {
-    console.error("Fetch error:", error);
-});
-}
-
-// Call this function wherever you need to generate and display the bill number
-fetchBillNumber();
-
-  </script>
-  <script>
-  // Function to generate and download PDF
-document.getElementById('download-btn').addEventListener('click', function () {
-    // Get the bill content
-    var element = document.getElementById('bill-content');
-    
-    // Generate PDF
-    html2pdf()
-        .from(element)
-        .set({
-            margin: 1,
-            filename: 'e-bill ' + billNumber,
-            html2canvas: { scale: 2 },
-            jsPDF: { orientation: 'portrait', unit: 'in', format: 'letter' }
-        })
-        .save();
-});
-
-// Function to generate PDF and send it to WhatsApp
-document.getElementById('send-bill-btn').addEventListener('click', function () {
-    // Get the bill content
-    var element = document.getElementById('bill-content');
-    
-    // Generate PDF
-    html2pdf()
-        .from(element)
-        .set({
-            margin: 1,
-            filename: billNumber,
-            html2canvas: { scale: 2 },
-            jsPDF: { orientation: 'portrait', unit: 'in', format: 'letter' }
-        })
-        .toPdf()
-        .get('pdf')
-        .then(function (pdf) {
-            // Convert PDF to Blob for uploading
-            pdf.save(billNumber);
-            const blob = pdf.output('blob');
-
-            // Create FormData object to send PDF to server
-            let formData = new FormData();
-            formData.append('file', blob, billNumber);
-
-            // Send the file to the server (update with your server's URL)
-            fetch('https://your-server.com/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Assuming the response contains the file URL
-                const fileUrl = data.fileUrl;
-
-                // Get the phone number from the preview
-                const phone = document.getElementById("phonePreview").textContent;
-
-                // Send the WhatsApp message with the file link
-                const message = Check out your bill: ${fileUrl};
-                const whatsappUrl = https://wa.me/${phone}?text=${encodeURIComponent(message)};
-                
-                // Redirect to WhatsApp
-                window.open(whatsappUrl, '_blank');
-            })
-            .catch(error => console.error('Error uploading PDF:', error));
-        });
-});
-
-
-  </script>
+  
  
   <script>
     var win = navigator.platform.indexOf("Win") > -1;
@@ -1017,8 +926,7 @@ document.getElementById('send-bill-btn').addEventListener('click', function () {
       };
       Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
     }
-  </script>
-  <script>
+
     document.addEventListener("DOMContentLoaded", () => {
 // Retrieve cid from local storage
 let cid = dbUser.cid
@@ -1049,9 +957,10 @@ if (data.status === false) {
   // Populate the fields with response data
   document.getElementById("shop_name").innerText = data.shop_name || "Fashion Shop Name";
   document.getElementById("shop_address").innerText = data.address || "Address Line 1, Address Line 2, City, State, Postal Code";
-  document.getElementById("shop_contact").innerText = Contact: ${data.phoneno} | Email: ${data.email};
-  document.getElementById("shop_gst").innerText = GSTIN: ${data.gst};
-  document.getElementById("customer_name").innerText = ${data.first_name} ${data.last_name};
+  document.getElementById("shop_contact").innerText = `Contact: ${data.phoneno} | Email: ${data.email}`;
+  document.getElementById("shop_gst").innerText = `GSTIN: ${data.gst}`;
+  document.getElementById("customer_name").innerText = `${data.first_name} ${data.last_name}`;
+
   document.getElementById("customer_phone").innerText = data.phoneno;
   document.getElementById("customer_email").innerText = data.email;
   document.getElementById("customer_address").innerText = data.address;
@@ -1068,40 +977,139 @@ console.error("CID not found in local storage.");
 fcxx75442
 
       </script>
-      <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Function to format the date to DD-MM-YYYY
-            function getCurrentDate() {
-                const today = new Date();
-                
-                const day = String(today.getDate()).padStart(2, '0'); // Add leading zero if single digit
-                const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero if single digit (months are 0-indexed)
-                const year = today.getFullYear();
-                
-                return ${day}-${month}-${year};
-            }
-
-            // Display the current date in a specific element with the id 'current-date'
-            const dateElement = document.getElementById("current-date");
-
-            if (dateElement) {
-                dateElement.innerText = getCurrentDate();
-            } else {
-                console.error("Element with id 'current-date' not found.");
-            }
-        });
-       
-
-      </script>
       
       <script>
-        function updatePreview() {
-            const name = document.getElementById("name").value;
-            const phone = document.getElementById("phone").value;
-            document.getElementById("namePreview").textContent = name;
-            document.getElementById("phonePreview").textContent = phone;
-        }
+     // Declare the phone number as a global variable
+let phone = "";
+
+function updatePreview() {
+    const name = document.getElementById("name").value;
+
+    // Update the global variable
+    phone = document.getElementById("phone").value;
+
+    document.getElementById("namePreview").textContent = name;
+    document.getElementById("phonePreview").textContent = phone;
+}
+
+ 
     </script>
+      <script>
+        let billNumber;
+        function fetchBillNumber() {
+    fetch('http://localhost/client/pages/bill_num.php')
+    .then(response => response.json())
+    .then(data => {
+        if (data.status) {
+              billNumber = data.bill_number;
+            
+            document.getElementById("bill_number").innerText = billNumber; // Display the bill number on the page
+        } else {
+            console.error("Error:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Fetch error:", error);
+    });
+    }
+    
+    // Call this function wherever you need to generate and display the bill number
+    fetchBillNumber();
+    
+      </script>
+      <script>      document.getElementById("sendConfirmedBillBtn").addEventListener("click", function () {
+    // Select the content to convert
+    const content = document.getElementById("bill-content");
+
+    // Generate the PDF using html2pdf
+    html2pdf()
+        .from(content)
+        .toPdf()
+        .outputPdf("datauristring") // Output as Data URI
+        .then(function (pdfDataUri) {
+            // Convert Data URI to Blob
+            const pdfBlob = dataURItoBlob(pdfDataUri);
+
+            // Create a FormData object to send the PDF
+            const formData = new FormData();
+            const pdfName = `${billNumber}.pdf`; // Dynamically create the file name
+            formData.append("pdf", pdfBlob, pdfName);
+
+            // Send to the server using fetch
+            fetch("upload_bill.php", {
+                method: "POST",
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("File Path:", data.filePath);
+                    
+                    // Send file path to API
+                    sendFilePathToAPI(data.filePath);
+
+                    // WhatsApp integration
+                    const filePath = data.filePath; // Path to the uploaded file from the server response
+                    const phoneNumber = phone; // Replace with the target phone number
+                    const message = `Hi here is your bill: ${filePath}`;
+                    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                    // Open WhatsApp link
+                    window.open(whatsappLink, "_blank");
+                })
+                .catch(err => console.error("Error:", err));
+        });
+
+    // Helper function to convert Data URI to Blob
+    function dataURItoBlob(dataURI) {
+        const byteString = atob(dataURI.split(",")[1]);
+        const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: mimeString });
+    }
+
+    // Function to send file path to API
+    function sendFilePathToAPI(filepath, cid) {
+  console.log('cid:', cid);
+  fetch('https://minitgo.com/api/bills.php', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          filepath: filepath,
+          cid: cid
+      })
+    
+  })
+  .then(response => response.json())
+  .then(data => console.log('API Response:', data))
+  .catch(error => console.error('Error:', error));
+  
+}
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    function getCurrentDate() {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
+    const dateElement = document.getElementById("current-date");
+    if (dateElement) {
+        dateElement.innerText = getCurrentDate();
+    } else {
+        console.error("Element with id 'current-date' not found.");
+    }
+});
+</script>
+
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
@@ -1109,7 +1117,7 @@ fcxx75442
   <script src="../client_assets/js/billing.js"></script>
   <script src="../client_assets/js/notification.js"></script>
   <script src="../client_assets/js/sidenav/sidenav.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+ 
    <!--   Core JS Files   -->
    <script src="../client_assets/js/core/popper.min.js"></script>
    <script src="../client_assets/js/core/bootstrap.min.js"></script>
